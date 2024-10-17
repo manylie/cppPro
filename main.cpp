@@ -1,4 +1,3 @@
-
 #include <QApplication>
 #include <QMainWindow>
 #include <QPushButton>
@@ -17,16 +16,20 @@ private slots:
     void b2Clicked();
     void b3Clicked();
     void b4Clicked();
+    
 private:
-    QLabel* l1;
-    QLabel* l2;
-    QLabel* l3;
-    QLabel* l4;
     QWidget *mainWidget;
+    QPushButton *button;
+    QPushButton *button2;
+    QPushButton *button3;
+    QPushButton *button4;
+    QLabel *label4;
+    QLabel *label;
+    QLabel *label2;
+    QLabel *label3;
     QVBoxLayout *layout;
-    QLabel* myLabel(const QString &text, QLayout *layout);
-    QPushButton* newBtnX(const QString &text,void(MainWindow::*slot)() ,QLayout *layout);
 };
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -35,53 +38,58 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(mainWidget);
 
     layout = new QVBoxLayout();
-    newBtnX("er1",&MainWindow::b1Clicked,layout);
-    newBtnX("er2",&MainWindow::b2Clicked,layout);
-    newBtnX("er3",&MainWindow::b3Clicked,layout);
-    newBtnX("er4",&MainWindow::b4Clicked,layout);
-    l1 = myLabel("b1",layout);
-    l2=myLabel("b2",layout);
-    l3=myLabel("b3",layout);
-    l4=myLabel("b4",layout);
-    mainWidget->setLayout(layout);
+    button = new QPushButton("Botón 1", this);
+    connect(button, &QPushButton::clicked, this, &MainWindow::b1Clicked);
+    
+    button2 = new QPushButton("Botón 2", this);
+    connect(button2, &QPushButton::clicked, this, &MainWindow::b2Clicked);
+    
+    button3 = new QPushButton("Botón 3", this);
+    connect(button3, &QPushButton::clicked, this, &MainWindow::b3Clicked);
+    
+    button4 = new QPushButton("Botón 4", this);
+    connect(button4, &QPushButton::clicked, this, &MainWindow::b4Clicked);
+    
+    label = new QLabel("Label 1", this);
+    label2 = new QLabel("Label 2", this);
+    label3 = new QLabel("Label 3", this);
+    label4 = new QLabel("Label 4", this);
 
+    layout->addWidget(label);
+    layout->addWidget(button);
+    layout->addWidget(label2);
+    layout->addWidget(button2);
+    layout->addWidget(label3);
+    layout->addWidget(button3);
+    layout->addWidget(button4);
+    layout->addWidget(label4);
+    
+    mainWidget->setLayout(layout);
 }
 
 MainWindow::~MainWindow()
 {
     // Los widgets se eliminan automáticamente al eliminar el MainWindow
 }
-QLabel* MainWindow:: myLabel(const QString &text, QLayout *layout){
-    QLabel *label = new QLabel (text,this);
-    layout->addWidget(label);
-    return label;
-}
 
-QPushButton* MainWindow::newBtnX(const QString &text, void (MainWindow::*slot)(), QLayout *layout){
-    QPushButton *button= new QPushButton(text,this);
-    connect(button, &QPushButton::clicked,this, slot);
-    layout->addWidget(button);
-    return button;
-}
 void MainWindow::b1Clicked()
 {
-    l1->setText("Botón1 presionado");
-    
+    label->setText("Botón 1 presionado");
+}
+
+void MainWindow::b2Clicked()
+{
+    label2->setText("Botón 2 presionado");
 }
 
 void MainWindow::b3Clicked()
 {
-    l2->setText("Botón b3 presionado");
-    
+    label3->setText("Botón 3 presionado");
 }
-void MainWindow::b2Clicked()
-{
-    l3->setText("Botón b2 presionado");
-    
-}
+
 void MainWindow::b4Clicked()
 {
-    l4->setText("boton b4 presionado");
+    label4->setText("Botón 4 presionado");
 }
 
 int main(int argc, char *argv[])
